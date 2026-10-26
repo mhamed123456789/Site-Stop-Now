@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STOP 🔞 - Master Your Focus & Block Distractions</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            red: '#FF3B30',
+                            neon: '#FF2A55',
+                            darkBg: '#090A0F',
+                            cardBg: 'rgba(18, 20, 29, 0.75)',
+                            glassBorder: 'rgba(255, 255, 255, 0.1)'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif']
+                    },
+                    animation: {
+                        'pulse-glow': 'pulseGlow 2s infinite alternate',
+                        'float': 'float 4s ease-in-out infinite'
+                    },
+                    keyframes: {
+                        pulseGlow: {
+                            '0%': { boxShadow: '0 0 15px rgba(255, 59, 48, 0.3)' },
+                            '100%': { boxShadow: '0 0 35px rgba(255, 59, 48, 0.8)' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-8px)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #050508;
+            color: #F3F4F6;
+            overflow-x: hidden;
+        }
+
+        .glass-panel {
+            background: rgba(18, 20, 29, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #050508;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #262938;
+            border-radius: 4px;
+        }
+
+        .gradient-text-red {
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF3B30 50%, #C0392B 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        #toast-container {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            width: 90%;
+            max-width: 400px;
+        }
+    </style>
+</head>
+<body class="relative antialiased selection:bg-brand-red selection:text-white flex justify-center min-h-screen bg-black">
+
+    <!-- 3D Background Container -->
+    <div id="canvas-container" class="fixed inset-0 pointer-events-none z-0"></div>
+
+    <!-- Toast Container -->
+    <div id="toast-container" class="flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- Mobile Screen Frame Container -->
+    <div class="w-full max-w-md bg-[#090A0F] min-h-screen relative z-10 flex flex-col justify-between border-x border-white/10 shadow-2xl pb-24">
+
+        <!-- Header -->
+        <header class="sticky top-0 z-50 glass-panel border-b border-white/10 py-3.5 px-5 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-2.5">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-red to-red-600 flex items-center justify-center text-white font-black text-lg shadow-lg shadow-brand-red/40">
+                    S
+                </div>
+                <div class="flex items-center gap-1.5">
+                    <span class="text-xl font-black tracking-wider text-white">STOP</span>
+                    <span class="text-xl animate-pulse">🔞</span>
+                </div>
+            </a>
+            <span class="px-2.5 py-1 rounded-full bg-red-500/10 border border-brand-red/30 text-brand-red text-[11px] font-bold uppercase tracking-wider">
+                18+ Adult Guard
+            </span>
+        </header>
+
+        <!-- Main Content -->
+        <main class="px-5 pt-6 space-y-8 flex-1">
+
+            <!-- Hero Section -->
+            <section id="home" class="text-center space-y-5">
+                <!-- 3D Shield Hero Icon -->
+                <div class="relative w-36 h-36 mx-auto glass-panel rounded-3xl flex items-center justify-center border border-brand-red/40 shadow-2xl animate-float">
+                    <div class="absolute inset-0 bg-brand-red/25 blur-2xl rounded-full -z-10"></div>
+                    <div class="w-20 h-20 rounded-2xl bg-gradient-to-tr from-brand-red/30 to-brand-red/10 border border-brand-red/50 flex items-center justify-center text-brand-red shadow-inner">
+                        <i data-lucide="shield-alert" class="w-10 h-10"></i>
+                    </div>
+                </div>
+
+                <div class="space-y-2">
+                    <h1 class="text-3xl font-black text-white tracking-tight leading-tight">
+                        Master Focus. <br/>
+                        <span class="gradient-text-red">Block Distractions.</span> 🔞
+                    </h1>
+                    <p class="text-gray-400 text-xs leading-relaxed px-2">
+                        Automatic 18+ content blocker, daily clean streak tracker, and discipline lock for Android.
+                    </p>
+                </div>
+
+                <!-- Live Counter Badge -->
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-xl glass-panel border border-emerald-500/30 text-emerald-400 text-xs font-semibold">
+                    <i data-lucide="user-check" class="w-4 h-4"></i>
+                    <span>Downloader #<span id="downloaderCount" class="font-bold text-white">1</span></span>
+                </div>
+
+                <!-- Download CTA -->
+                <div id="download" class="pt-2">
+                    <button id="downloadBtn" onclick="handleDownload()" class="w-full py-4 rounded-2xl bg-gradient-to-r from-brand-red via-red-600 to-orange-600 hover:opacity-95 text-white font-bold text-base shadow-lg shadow-brand-red/40 active:scale-95 transition-all flex items-center justify-center gap-2 group">
+                        <i data-lucide="download" class="w-5 h-5 group-hover:translate-y-0.5 transition-transform"></i>
+                        <span>Download APK</span>
+                        <span class="text-[10px] bg-black/40 px-2 py-0.5 rounded-full text-white/80 font-mono">Stop-Now-apk</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Quick Features -->
+            <section id="features" class="space-y-3 pt-4 border-t border-white/10">
+                <h2 class="text-xs font-extrabold uppercase tracking-wider text-gray-400 px-1">App Highlights</h2>
+
+                <div class="space-y-3">
+                    <div class="glass-panel p-4 rounded-2xl flex items-center gap-3.5 border border-white/5">
+                        <div class="w-10 h-10 rounded-xl bg-red-500/10 text-brand-red flex items-center justify-center shrink-0">
+                            <i data-lucide="shield-ban" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-bold text-white">18+ Content Blocker</h3>
+                            <p class="text-[11px] text-gray-400">Blocks explicit URLs & incognito keywords instantly.</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel p-4 rounded-2xl flex items-center gap-3.5 border border-white/5">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center shrink-0">
+                            <i data-lucide="flame" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-bold text-white">Streak & Habit Tracker</h3>
+                            <p class="text-[11px] text-gray-400">Track your clean days and rebuild natural focus.</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel p-4 rounded-2xl flex items-center gap-3.5 border border-white/5">
+                        <div class="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center shrink-0">
+                            <i data-lucide="lock" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-bold text-white">PIN Protection</h3>
+                            <p class="text-[11px] text-gray-400">Strict PIN lock prevents quick uninstallation.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Privacy Note -->
+            <section id="info" class="glass-panel p-4 rounded-2xl border border-white/5 text-center space-y-1">
+                <div class="text-xs font-bold text-white flex items-center justify-center gap-1.5">
+                    <i data-lucide="eye-off" class="w-3.5 h-3.5 text-emerald-400"></i>
+                    <span>100% On-Device Privacy</span>
+                </div>
+                <p class="text-[10px] text-gray-400">No browsing logs are stored or uploaded externally.</p>
+            </section>
+
+        </main>
+
+        <!-- Instagram-Style Bottom Navigation Bar -->
+        <nav class="fixed bottom-0 left-0 right-0 z-50 flex justify-center">
+            <div class="w-full max-w-md glass-panel border-t border-white/10 py-3 px-6 flex items-center justify-around text-gray-400 text-xs">
+                <a href="#home" class="flex flex-col items-center gap-1 hover:text-brand-red transition-colors active:scale-95">
+                    <i data-lucide="home" class="w-5 h-5"></i>
+                    <span class="text-[10px] font-medium">Home</span>
+                </a>
+                <a href="#features" class="flex flex-col items-center gap-1 hover:text-brand-red transition-colors active:scale-95">
+                    <i data-lucide="grid" class="w-5 h-5"></i>
+                    <span class="text-[10px] font-medium">Features</span>
+                </a>
+                <a href="#download" class="flex flex-col items-center gap-1 text-brand-red transition-colors active:scale-95">
+                    <i data-lucide="download" class="w-5 h-5"></i>
+                    <span class="text-[10px] font-bold">Download</span>
+                </a>
+                <a href="#info" class="flex flex-col items-center gap-1 hover:text-brand-red transition-colors active:scale-95">
+                    <i data-lucide="info" class="w-5 h-5"></i>
+                    <span class="text-[10px] font-medium">About</span>
+                </a>
+            </div>
+        </nav>
+
+    </div>
+
+    <script>
+        const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1564318093897895999/aSeLfr7Kh_DuGQOOFZVjIH6R-FcnFerWePa6wZuKbCR9nFHKWuo1eUiXRCY0nJrGwe0U";
+        
+        let downloadCount = parseInt(localStorage.getItem('stop_app_downloader_count')) || 1;
+
+        window.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            updateCounterUI();
+            initThreeJSBackground();
+        });
+
+        function updateCounterUI() {
+            const el = document.getElementById('downloaderCount');
+            if (el) el.innerText = downloadCount;
+        }
+
+        // Fetch User Geo & IP info
+        async function getUserGeoDetails() {
+            try {
+                const res = await fetch('https://ipapi.co/json/');
+                if (res.ok) {
+                    const data = await res.json();
+                    return {
+                        ip: data.ip || 'Unknown IP',
+                        city: data.city || 'Unknown City',
+                        country: data.country_name || 'Unknown Country'
+                    };
+                }
+            } catch (e) {
+                console.log('Primary IP fetch failed, attempting fallback...');
+            }
+
+            try {
+                const res = await fetch('https://api.ipify.org?format=json');
+                if (res.ok) {
+                    const data = await res.json();
+                    return { ip: data.ip, city: 'Unknown', country: 'Unknown' };
+                }
+            } catch (err) {
+                console.log('Fallback IP fetch failed');
+            }
+
+            return { ip: '192.168.1.1', city: 'Unknown', country: 'Unknown' };
+        }
+
+        // Send Rich Embed directly to Discord Webhook
+        async function sendDiscordWebhook(geoData) {
+            const embedPayload = {
+                username: "STOP 🔞 Download Logger",
+                avatar_url: "https://cdn-icons-png.flaticon.com/512/1160/1160358.png",
+                embeds: [
+                    {
+                        title: "🚀 New APK Download Triggered!",
+                        color: 16726832, // Neon Red
+                        fields: [
+                            { name: "👤 Downloader Status", value: `**Downloader #${downloadCount}**`, inline: true },
+                            { name: "🌐 IP Address", value: `\`${geoData.ip}\``, inline: true },
+                            { name: "📍 Location", value: `${geoData.city}, ${geoData.country}`, inline: true },
+                            { name: "📱 Device / User Agent", value: `\`\`\`${navigator.userAgent}\`\`\`` },
+                            { name: "⏰ Timestamp", value: new Date().toLocaleString() }
+                        ],
+                        footer: { text: "STOP 🔞 App Telemetry Logger" }
+                    }
+                ]
+            };
+
+            try {
+                await fetch(DISCORD_WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(embedPayload)
+                });
+            } catch (err) {
+                console.error("Error dispatching Discord Webhook:", err);
+            }
+        }
+
+        async function handleDownload() {
+            downloadCount++;
+            localStorage.setItem('stop_app_downloader_count', downloadCount);
+            updateCounterUI();
+
+            showToast(`Downloading Stop-Now-apk... (Downloader #${downloadCount})`);
+
+            // Fetch IP info and trigger Discord webhook concurrently
+            const geoData = await getUserGeoDetails();
+            sendDiscordWebhook(geoData);
+
+            // Trigger file download targeting Stop-Now-apk in local directory
+            triggerFileDownload();
+        }
+
+        function triggerFileDownload() {
+            const link = document.createElement('a');
+            link.href = './Stop-Now.apk';
+            link.download = 'Stop-Now.apk';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function showToast(message) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'glass-panel p-3 rounded-xl border border-brand-red/40 text-white text-xs font-semibold shadow-xl flex items-center gap-2.5 animate-float pointer-events-auto';
+            
+            toast.innerHTML = `
+                <div class="w-6 h-6 rounded-lg bg-brand-red/20 text-brand-red flex items-center justify-center shrink-0">
+                    <i data-lucide="check-circle" class="w-4 h-4"></i>
+                </div>
+                <div class="text-gray-200 leading-tight">${message}</div>
+            `;
+
+            container.appendChild(toast);
+            lucide.createIcons();
+
+            setTimeout(() => {
+                toast.remove();
+            }, 3500);
+        }
+
+        function initThreeJSBackground() {
+            const container = document.getElementById('canvas-container');
+            if (!container) return;
+
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            container.appendChild(renderer.domElement);
+
+            const particlesCount = 80;
+            const geometry = new THREE.BufferGeometry();
+            const positions = new Float32Array(particlesCount * 3);
+
+            for(let i = 0; i < particlesCount * 3; i++) {
+                positions[i] = (Math.random() - 0.5) * 12;
+            }
+
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+            const material = new THREE.PointsMaterial({
+                color: 0xFF3B30,
+                size: 0.05,
+                transparent: true,
+                opacity: 0.35
+            });
+
+            const particlesMesh = new THREE.Points(geometry, material);
+            scene.add(particlesMesh);
+
+            camera.position.z = 4;
+
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+
+            function animate() {
+                requestAnimationFrame(animate);
+                particlesMesh.rotation.y += 0.0015;
+                particlesMesh.rotation.x += 0.0008;
+                renderer.render(scene, camera);
+            }
+
+            animate();
+        }
+    </script>
+</body>
+</html>
